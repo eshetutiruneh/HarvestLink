@@ -1,10 +1,11 @@
-require("dotenv").config({ path: require("path").resolve(__dirname, "../.env") });
+require("dotenv").config();
 
 const express = require("express");
 const helmet = require("helmet");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const rateLimit = require("express-rate-limit");
+
 const db = require("./config/db");
 const authRoutes = require("./routes/auth");
 
@@ -16,12 +17,10 @@ if (!process.env.JWT_SECRET || process.env.JWT_SECRET.length < 32) {
 }
 
 app.use(helmet());
-app.use(
-  cors({
-    origin: process.env.CLIENT_ORIGIN || "http://localhost:5500",
-    credentials: true
-  })
-);
+app.use(cors({
+  origin: process.env.CLIENT_ORIGIN || "http://localhost:5500",
+  credentials: true
+}));
 app.use(express.json({ limit: "1mb" }));
 app.use(cookieParser());
 
@@ -48,7 +47,7 @@ app.use(
 app.use("/api/auth", authRoutes);
 
 app.use((req, res) => {
-  return res.status(404).json({ error: "API route not found." });
+  res.status(404).json({ error: "API route not found." });
 });
 
 app.use((err, req, res, next) => {

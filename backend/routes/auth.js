@@ -40,7 +40,7 @@ router.post("/register", async (req, res, next) => {
   try {
     const { fullName, email, phone, location, role, password } = req.body || {};
 
-    if (![fullName, email, phone, location, role, password].every((value) => typeof value === "string" && value.trim())) {
+    if (![fullName, email, phone, location, role, password].every((v) => typeof v === "string" && v.trim())) {
       return res.status(400).json({ error: "Please complete all required fields." });
     }
 
@@ -72,7 +72,6 @@ router.post("/register", async (req, res, next) => {
     }
 
     const passwordHash = await bcrypt.hash(password, 12);
-
     const [result] = await db.execute(
       "INSERT INTO users (full_name, email, phone, location, role, password_hash) VALUES (?, ?, ?, ?, ?, ?)",
       [fullName.trim(), normalizedEmail, phone.trim(), location.trim(), role, passwordHash]
@@ -100,10 +99,9 @@ router.post("/login", async (req, res, next) => {
       return res.status(400).json({ error: "Enter your email and password." });
     }
 
-    const normalizedEmail = email.trim().toLowerCase();
     const [rows] = await db.execute(
       "SELECT id, full_name, email, phone, location, role, status, password_hash, created_at FROM users WHERE email = ? LIMIT 1",
-      [normalizedEmail]
+      [email.trim().toLowerCase()]
     );
 
     const row = rows[0];
