@@ -67,25 +67,25 @@ router.post("/register", async (req, res, next) => {
     const normalizedEmail = email.trim().toLowerCase();
     const [existing] = await db.execute("SELECT id FROM users WHERE email = ?", [normalizedEmail]);
 
-    if (existing.length) {
+    if (existing.length > 0) {
       return res.status(409).json({ error: "An account with this email already exists." });
     }
 
-    const passwordHash = await bcrypt.hash(password, 12);
+    const passwordHash = await bcrypt.hash(password, 10);
     const [result] = await db.execute(
-      "INSERT INTO users (full_name, email, phone, location, role, password_hash) VALUES (?, ?, ?, ?, ?, ?)",
+      `INSERT INTO users (full_name, email, phone, location, role, password_hash, status, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, 'active', NOW())`,
       [fullName.trim(), normalizedEmail, phone.trim(), location.trim(), role, passwordHash]
     );
 
-    const [rows] = await db.execute(
-      "SELECT id, full_name, email, phone, location, role, status, created_at FROM users WHERE id = ?",
-      [result.insertId]
-    );
-
-    const user = publicUser(rows[0]);
+    const [rows] = await db.execute("SELECT * FROM users WHERE id = ?", [result.insertId]);
+    const user = rows[0];
     issueSession(user, res);
 
-    return res.status(201).json({ message: "Account created successfully.", user });
+    return res.status(201).json({
+      message: "Registration successful.",
+      user: publicUser(user)
+    });
   } catch (error) {
     return next(error);
   }
@@ -95,66 +95,48 @@ router.post("/login", async (req, res, next) => {
   try {
     const { email, password } = req.body || {};
 
-    if (typeof email !== "string" || typeof password !== "string" || !email.trim() || !password) {
-      return res.status(400).json({ error: "Enter your email and password." });
+    if (typeof email !== "string" || typeof password !== "string") {
+      return res.status(400).json({ error: "Email and password are required." });
     }
 
-    const [rows] = await db.execute(
-      "SELECT id, full_name, email, phone, location, role, status, password_hash, created_at FROM users WHERE email = ? LIMIT 1",
-      [email.trim().toLowerCase()]
-    );
+    const normalizedEmail = email.trim().toLowerCase();
+    const [rows] = await db.execute("SELECT * FROM users WHERE email = ? LIMIT 1", [normalizedEmail]);
 
-    const row = rows[0];
-
-    if (!row || !(await bcrypt.compare(password, row.password_hash))) {
-      return res.status(401).json({ error: "Incorrect email or password." });
+    if (rows.length === 0) {
+      return res.status(401).json({ error: "Invalid email or password." });
     }
 
-    if (row.status !== "active") {
-      return res.status(403).json({ error: "This account is not active. Please contact support." });
+    const user = rows[0];
+    const valid = await bcrypt.compare(password, user.password_hash);
+
+    if (!valid) {
+      return res.status(401).json({ error: "Invalid email or password." });
     }
 
-    const user = publicUser(row);
     issueSession(user, res);
-
-    return res.json({ message: "Signed in successfully.", user });
-  } catch (error) {
-    return next(error);
-  }
-});
-
-router.get("/me", requireAuth, async (req, res, next) => {
-  try {
-    const [rows] = await db.execute(
-      "SELECT id, full_name, email, phone, location, role, status, created_at FROM users WHERE id = ? LIMIT 1",
-      [req.user.id]
-    );
-
-    if (!rows.length || rows[0].status !== "active") {
-      res.clearCookie("harvestlink_token", {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
-        path: "/"
-      });
-      return res.status(401).json({ error: "Account not found or inactive." });
-    }
-
-    return res.json({ user: publicUser(rows[0]) });
+    return res.json({ message: "Login successful.", user: publicUser(user) });
   } catch (error) {
     return next(error);
   }
 });
 
 router.post("/logout", (req, res) => {
-  res.clearCookie("harvestlink_token", {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/"
-  });
+  res.clearCookie("harvestlink_token", { path: "/" });
+  return res.json({ message: "Logged out successfully." });
+});
 
-  return res.json({ message: "Signed out successfully." });
+router.get("/me", requireAuth, async (req, res) => {
+  try {
+    const [rows] = await db.execute("SELECT * FROM users WHERE id = ? LIMIT 1", [req.user.id]);
+
+    if (!rows.length) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    return res.json({ user: publicUser(rows[0]) });
+  } catch (error) {
+    return res.status(500).json({ error: "Unable to fetch user profile." });
+  }
 });
 
 module.exports = router;

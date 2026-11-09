@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages | HarvestLink</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="navbar">
+        <a href="index.html" class="logo">HarvestLink</a>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="orders.html">My Orders</a></li>
+                <li><a href="profile.html">My Profile</a></li>
+                <li><a href="login.html" class="nav-button">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="container messages-page">
+        <section class="page-header"><h1>HarvestLink Messages</h1><p>Communicate directly with farmers and consumers.</p></section>
+        <section class="messaging-container">
+            <aside class="conversation-sidebar">
+                <div class="conversation-header">
+                    <h2>Conversations</h2>
+                    <input type="search" placeholder="Search conversations..." aria-label="Search conversations">
+                </div>
+                <div class="conversation active"><div class="conversation-avatar">AK</div><div class="conversation-info"><h4>Abebe Kebede</h4><p>Potatoes are available.</p></div><span class="message-time">09:30</span></div>
+            </aside>
+            <div class="chat-area">
+                <div class="chat-header"><div class="conversation-avatar">AK</div><div><h3>Abebe Kebede</h3><p>Farmer | Online status not verified</p></div></div>
+                <div class="chat-product"><div><h4>Product: Potatoes</h4><p>Available quantity: 100 kg</p><p>Price: 35 ETB per kg</p></div><a href="product-details.html" class="btn">View Product</a></div>
+                <div class="chat-messages">
+                    <div class="message received"><p>Hello! I have fresh potatoes available for sale.</p><span>09:15</span></div>
+                    <div class="message sent"><p>Hello Abebe. How many kilograms are available?</p><span>09:20</span></div>
+                </div>
+                <form class="chat-input" action="#" method="POST">
+                    <input type="text" name="message" placeholder="Write your message..." aria-label="Write your message" required>
+                    <button type="submit" class="btn">Send</button>
+                </form>
+            </div>
+        </section>
+    </main>
+    <footer class="footer"><p>&copy; 2026 HarvestLink. Connecting Farmers and Consumers.</p></footer>
+    <script src="js/utils.js"></script><script src="js/store.js"></script><script src="js/auth.js"></script><script src="js/messages.js"></script><script src="js/script.js"></script>
+</body>
+</html>

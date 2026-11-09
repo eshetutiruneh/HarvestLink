@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Dashboard | HarvestLink</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="navbar">
+        <a href="index.html" class="logo">HarvestLink</a>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="products.html">Marketplace</a>
+            <a href="messages.html">Messages</a>
+            <a href="profile.html">Profile</a>
+            <a href="login.html">Logout</a>
+        </nav>
+    </header>
+    <main>
+        <div class="dashboard-layout">
+            <aside class="sidebar">
+                <h2>Farmer Panel</h2>
+                <a href="farmer-dashboard.html" class="active">Dashboard</a>
+                <a href="add-product.html">Add Product</a>
+                <a href="products.html?mine=1">My Products</a>
+                <a href="farmer-orders.html">My Orders</a>
+                <a href="messages.html">Messages</a>
+                <a href="profile.html">My Profile</a>
+                <a href="complaints.html">Complaints</a>
+                <a href="login.html">Logout</a>
+            </aside>
+            <section class="dashboard-content">
+                <div class="dashboard-header">
+                    <div><h1>Farmer Dashboard</h1><p>Welcome back, Farmer!</p></div>
+                    <a href="add-product.html" class="btn">+ Add New Product</a>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card"><h3>Total Products</h3><p class="number">12</p></div>
+                    <div class="stat-card"><h3>Total Orders</h3><p class="number">28</p></div>
+                    <div class="stat-card"><h3>Pending Orders</h3><p class="number">5</p></div>
+                    <div class="stat-card"><h3>Completed Orders</h3><p class="number">23</p></div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <footer class="footer"><p>&copy; 2026 HarvestLink. All rights reserved.</p></footer>
+    <script src="js/utils.js"></script><script src="js/store.js"></script><script src="js/auth.js"></script><script src="js/orders.js"></script><script src="js/dashboard.js"></script><script src="js/script.js"></script>
+</body>
+</html>

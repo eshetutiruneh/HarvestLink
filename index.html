@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HarvestLink | Fresh from the source</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="home-page">
+    <header class="navbar">
+        <a href="index.html" class="logo">HarvestLink</a>
+        <nav class="nav-links" aria-label="Main navigation">
+            <a href="index.html">Home</a>
+            <a href="products.html">Marketplace</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="login.html" class="nav-login-link">Log in</a>
+            <a href="register.html" class="nav-button">Get started</a>
+        </nav>
+    </header>
+
+    <main class="home-main">
+        <section class="hero">
+            <div class="hero-content">
+                <div class="eyebrow">ETHIOPIAN FARMERS. FRESH POSSIBILITIES.</div>
+                <h1>Good food starts with good connections.</h1>
+                <p class="hero-lead">Meet the people who grow your food. Discover fresh, locally sourced produce and buy directly from Ethiopian farmers.</p>
+                <div class="hero-buttons">
+                    <a href="products.html" class="btn">Explore marketplace</a>
+                    <a href="register.html" class="btn btn-outline">Join the community</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1200" alt="Harvest farm">
+            </div>
+        </section>
+
+        <section class="search-section">
+            <div><h2>What are you looking for?</h2><p>Find the ingredients and harvests you need.</p></div>
+            <form class="search-form" action="products.html" method="get">
+                <input type="search" name="search" placeholder="Try tomatoes, potatoes, wheat...">
+                <button type="submit" class="btn">Search</button>
+            </form>
+        </section>
+
+        <section class="featured-section">
+            <div class="section-heading-row"><h2>Fresh from our farmers</h2><a href="products.html">View all products</a></div>
+            <div class="product-grid">
+                <article class="product-card"><img src="https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=700" alt="Potatoes"><div class="product-info"><h3>Potatoes</h3><p>Fresh harvest from local farms.</p><a href="products.html" class="btn">Explore product</a></div></article>
+                <article class="product-card"><img src="https://images.unsplash.com/photo-1546094096-0df4bcaaa337?w=700" alt="Tomatoes"><div class="product-info"><h3>Tomatoes</h3><p>Bright, fresh and ready for your kitchen.</p><a href="products.html" class="btn">Explore product</a></div></article>
+                <article class="product-card"><img src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=700" alt="Wheat"><div class="product-info"><h3>Wheat</h3><p>Quality grain supplied by local farmers.</p><a href="products.html" class="btn">Explore product</a></div></article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 HarvestLink. Connecting Farmers and Consumers.</p>
+    </footer>
+
+    <script src="js/utils.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

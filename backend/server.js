@@ -1,11 +1,9 @@
 require("dotenv").config();
-
 const express = require("express");
 const helmet = require("helmet");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const rateLimit = require("express-rate-limit");
-
 const db = require("./config/db");
 const authRoutes = require("./routes/auth");
 
@@ -27,9 +25,9 @@ app.use(cookieParser());
 app.get("/api/health", async (req, res) => {
   try {
     await db.query("SELECT 1");
-    return res.json({ status: "ok", service: "HarvestLink API", database: "connected" });
+    res.json({ status: "ok", service: "HarvestLink API", database: "connected" });
   } catch (error) {
-    return res.status(503).json({ status: "error", service: "HarvestLink API", database: "disconnected" });
+    res.status(503).json({ status: "error", service: "HarvestLink API", database: "disconnected" });
   }
 });
 
@@ -43,7 +41,6 @@ app.use(
     message: { error: "Too many authentication attempts. Please try again later." }
   })
 );
-
 app.use("/api/auth", authRoutes);
 
 app.use((req, res) => {
@@ -52,7 +49,7 @@ app.use((req, res) => {
 
 app.use((err, req, res, next) => {
   console.error(err);
-  return res.status(500).json({ error: "An unexpected server error occurred." });
+  res.status(500).json({ error: "An unexpected server error occurred." });
 });
 
 app.listen(port, () => {
